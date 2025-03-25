@@ -33,7 +33,6 @@
 /* Priorities at which the tasks are created. */
 #define mainONE_LEDTASK_PRIORITY		( tskIDLE_PRIORITY + 3 )
 #define	mainOTHER_LED_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
-#define	mainOTHER2_LED_TASK_PRIORITY		( tskIDLE_PRIORITY + 1 )
 
 /* The rate at which data is sent to the queue.  The times are converted from
 milliseconds to ticks using the pdMS_TO_TICKS() macro. */
@@ -69,8 +68,8 @@ queue send software timer respectively. */
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
-static void prvStartDefaultTask(void  * argument);
-static void prvStartTask02(void  * argument);
+static void idleTask(void  * argument);
+static void gameTask(void  * argument);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -120,14 +119,14 @@ int main(void)
       /* USER CODE BEGIN 1 */
     	if( xQueue != NULL )
     		{
-  		xTaskCreate( prvStartDefaultTask,			/* The function that implements the task. */
-  							"One LED", 							/* The text name assigned to the task - for debug only as it is not used by the kernel. */
+  		xTaskCreate( idleTask,			/* The function that implements the task. */
+  							"IdleTask", 							/* The text name assigned to the task - for debug only as it is not used by the kernel. */
   							configMINIMAL_STACK_SIZE, 		/* The size of the stack to allocate to the task. */
   							NULL, 							/* The parameter passed to the task - not used in this simple case. */
   							mainONE_LEDTASK_PRIORITY,/* The priority assigned to the task. */
   							NULL );							/* The task handle is not required, so NULL is passed. */
 
-  		xTaskCreate( prvStartTask02, "Other LED", configMINIMAL_STACK_SIZE, NULL, mainOTHER_LED_TASK_PRIORITY, NULL );
+  		xTaskCreate( gameTask, "GameTask", configMINIMAL_STACK_SIZE, NULL, mainOTHER_LED_TASK_PRIORITY, NULL );
   //
   		/* Create the software timer, but don't start it yet. */
 //  		xTimer = xTimerCreate( "Timer",				/* The text name assigned to the software timer - for debug only as it is not used by the kernel. */
@@ -239,7 +238,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-static void prvStartDefaultTask(void  * argument)
+static void idleTask(void  * argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
@@ -291,7 +290,7 @@ static void prvStartDefaultTask(void  * argument)
 * @retval None
 */
 /* USER CODE END Header_StartTask02 */
-static void prvStartTask02(void  * argument)
+static void gameTask(void  * argument)
 {
   /* Infinite loop */
   uint32_t receivedSignal;
@@ -305,29 +304,29 @@ static void prvStartTask02(void  * argument)
     	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
     	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 
-    	  //numGreenFlashes = (rand() % 4) + 4;
-    	  numGreenFlashes = 5;
+    	  numGreenFlashes = (rand() % 3) + 5;
+    	  //numGreenFlashes = 5;
     	  for (int i = 0; i < numGreenFlashes; i++) {
     		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
     	  }
 
-    	  //numOrangeFlashes = (rand() % 4) + 4;
-    	  numOrangeFlashes = 5;
+    	  numOrangeFlashes = (rand() % 3) + 5;
+    	  //numOrangeFlashes = 5;
     	  for (int i = 0; i < numOrangeFlashes; i++) {
     		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
     	  }
 
-    	  //numRedFlashes = (rand() % 4) + 4;
-    	  numRedFlashes = 5;
+    	  numRedFlashes = (rand() % 3) + 5;
+    	  //numRedFlashes = 5;
     	  for (int i = 0; i < numRedFlashes; i++) {
     		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
     	  }
 
-    	  //numBlueFlashes = (rand() % 4) + 4;
-    	  numBlueFlashes = 5;
+    	  numBlueFlashes = (rand() % 3) + 5;
+    	  //numBlueFlashes = 5;
     	  for (int i = 0; i < numBlueFlashes; i++) {
     		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
@@ -363,9 +362,6 @@ static void prvStartTask02(void  * argument)
     	  }
 
       }
-
-
-
   }
 }
 
