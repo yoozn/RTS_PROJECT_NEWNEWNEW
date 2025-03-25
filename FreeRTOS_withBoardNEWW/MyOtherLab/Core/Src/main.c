@@ -335,7 +335,7 @@ static void prvStartTask02(void  * argument)
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
     	  }
 
-    	  vTaskDelay(pdMS_TO_TICKS(20));
+    	  vTaskDelay(pdMS_TO_TICKS(50));
 
 
 
