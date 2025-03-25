@@ -245,10 +245,6 @@ static void idleTask(void  * argument)
 	uint32_t currentLED = 0;
   for(;;)
   {
-	  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-	  //vTaskDelay(pdMS_TO_TICKS(500));
-	  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-
 	  switch (currentLED) {
 		  case 0:
 			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
@@ -272,11 +268,9 @@ static void idleTask(void  * argument)
 
 	  if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET) {
 		  uint32_t startSignal = 1;
-		  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
 		  xQueueSend(xQueue, &startSignal, portMAX_DELAY);
 		  vTaskDelay(pdMS_TO_TICKS(750));
 	  }
-	  //vTaskDelay(pdMS_TO_TICKS(10));
 
   }
   /* USER CODE END 5 */
@@ -347,7 +341,7 @@ static void gameTask(void  * argument)
     	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 
     	  if (pinState12 == GPIO_PIN_SET && pinState13 == GPIO_PIN_SET && pinState14 == GPIO_PIN_SET && pinState15 == GPIO_PIN_SET)
- {
+    	  {
     		  for (int i = 0; i < 10; i++) {
 				  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 				  vTaskDelay(pdMS_TO_TICKS(15));
