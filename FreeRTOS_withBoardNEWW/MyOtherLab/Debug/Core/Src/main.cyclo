@@ -3,6 +3,6 @@
 ../Core/Src/main.c:213:13:MX_GPIO_Init	1
 ../Core/Src/main.c:244:13:prvStartDefaultTask	6
 ../Core/Src/main.c:296:13:prvStartTask02	12
-../Core/Src/main.c:370:13:prvStartTask03	1
-../Core/Src/main.c:412:6:HAL_TIM_PeriodElapsedCallback	2
-../Core/Src/main.c:429:6:Error_Handler	1
+../Core/Src/main.c:372:13:prvStartTask03	1
+../Core/Src/main.c:414:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/main.c:431:6:Error_Handler	1

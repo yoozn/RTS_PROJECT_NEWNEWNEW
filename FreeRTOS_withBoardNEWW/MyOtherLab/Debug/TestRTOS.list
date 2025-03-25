@@ -6686,16 +6686,16 @@ static void prvStartTask02(void  * argument)
  8002750:	488b      	ldr	r0, [pc, #556]	@ (8002980 <prvStartTask02+0x27c>)
  8002752:	f000 fe97 	bl	8003484 <HAL_GPIO_WritePin>
 
-    	  //numOrangeFlashes = (rand() % 4) + 4;
-    	  numOrangeFlashes = 5;
+    	  //numGreenFlashes = (rand() % 4) + 4;
+    	  numGreenFlashes = 5;
  8002756:	2305      	movs	r3, #5
  8002758:	667b      	str	r3, [r7, #100]	@ 0x64
-    	  for (int i = 0; i < numOrangeFlashes; i++) {
+    	  for (int i = 0; i < numGreenFlashes; i++) {
  800275a:	2300      	movs	r3, #0
  800275c:	67fb      	str	r3, [r7, #124]	@ 0x7c
  800275e:	e04d      	b.n	80027fc <prvStartTask02+0xf8>
-    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
- 8002760:	f44f 4100 	mov.w	r1, #32768	@ 0x8000
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+ 8002760:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
  8002764:	4886      	ldr	r0, [pc, #536]	@ (8002980 <prvStartTask02+0x27c>)
  8002766:	f000 fea6 	bl	80034b6 <HAL_GPIO_TogglePin>
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
@@ -6750,7 +6750,7 @@ static void prvStartTask02(void  * argument)
  80027ee:	4613      	mov	r3, r2
  80027f0:	4618      	mov	r0, r3
  80027f2:	f7fe fc95 	bl	8001120 <vTaskDelay>
-    	  for (int i = 0; i < numOrangeFlashes; i++) {
+    	  for (int i = 0; i < numGreenFlashes; i++) {
  80027f6:	6ffb      	ldr	r3, [r7, #124]	@ 0x7c
  80027f8:	3301      	adds	r3, #1
  80027fa:	67fb      	str	r3, [r7, #124]	@ 0x7c
@@ -6760,16 +6760,16 @@ static void prvStartTask02(void  * argument)
  8002802:	d8ad      	bhi.n	8002760 <prvStartTask02+0x5c>
     	  }
 
-    	  //numRedFlashes = (rand() % 4) + 4;
-    	  numRedFlashes = 5;
+    	  //numOrangeFlashes = (rand() % 4) + 4;
+    	  numOrangeFlashes = 5;
  8002804:	2305      	movs	r3, #5
  8002806:	663b      	str	r3, [r7, #96]	@ 0x60
-    	  for (int i = 0; i < numRedFlashes; i++) {
+    	  for (int i = 0; i < numOrangeFlashes; i++) {
  8002808:	2300      	movs	r3, #0
  800280a:	67bb      	str	r3, [r7, #120]	@ 0x78
  800280c:	e051      	b.n	80028b2 <prvStartTask02+0x1ae>
-    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
- 800280e:	f44f 4180 	mov.w	r1, #16384	@ 0x4000
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+ 800280e:	f44f 4100 	mov.w	r1, #32768	@ 0x8000
  8002812:	485b      	ldr	r0, [pc, #364]	@ (8002980 <prvStartTask02+0x27c>)
  8002814:	f000 fe4f 	bl	80034b6 <HAL_GPIO_TogglePin>
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
@@ -6824,7 +6824,7 @@ static void prvStartTask02(void  * argument)
  80028a4:	4613      	mov	r3, r2
  80028a6:	4618      	mov	r0, r3
  80028a8:	f7fe fc3a 	bl	8001120 <vTaskDelay>
-    	  for (int i = 0; i < numRedFlashes; i++) {
+    	  for (int i = 0; i < numOrangeFlashes; i++) {
  80028ac:	6fbb      	ldr	r3, [r7, #120]	@ 0x78
  80028ae:	3301      	adds	r3, #1
  80028b0:	67bb      	str	r3, [r7, #120]	@ 0x78
@@ -6834,16 +6834,16 @@ static void prvStartTask02(void  * argument)
  80028b8:	d8a9      	bhi.n	800280e <prvStartTask02+0x10a>
     	  }
 
-    	  //numBlueFlashes = (rand() % 4) + 4;
-    	  numBlueFlashes = 5;
+    	  //numRedFlashes = (rand() % 4) + 4;
+    	  numRedFlashes = 5;
  80028ba:	2305      	movs	r3, #5
  80028bc:	65fb      	str	r3, [r7, #92]	@ 0x5c
-    	  for (int i = 0; i < numBlueFlashes; i++) {
+    	  for (int i = 0; i < numRedFlashes; i++) {
  80028be:	2300      	movs	r3, #0
  80028c0:	677b      	str	r3, [r7, #116]	@ 0x74
  80028c2:	e051      	b.n	8002968 <prvStartTask02+0x264>
-    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
- 80028c4:	f44f 5100 	mov.w	r1, #8192	@ 0x2000
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+ 80028c4:	f44f 4180 	mov.w	r1, #16384	@ 0x4000
  80028c8:	482d      	ldr	r0, [pc, #180]	@ (8002980 <prvStartTask02+0x27c>)
  80028ca:	f000 fdf4 	bl	80034b6 <HAL_GPIO_TogglePin>
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
@@ -6898,7 +6898,7 @@ static void prvStartTask02(void  * argument)
  800295a:	4613      	mov	r3, r2
  800295c:	4618      	mov	r0, r3
  800295e:	f7fe fbdf 	bl	8001120 <vTaskDelay>
-    	  for (int i = 0; i < numBlueFlashes; i++) {
+    	  for (int i = 0; i < numRedFlashes; i++) {
  8002962:	6f7b      	ldr	r3, [r7, #116]	@ 0x74
  8002964:	3301      	adds	r3, #1
  8002966:	677b      	str	r3, [r7, #116]	@ 0x74
@@ -6908,19 +6908,19 @@ static void prvStartTask02(void  * argument)
  800296e:	d8a9      	bhi.n	80028c4 <prvStartTask02+0x1c0>
     	  }
 
-    	  //numGreenFlashes = (rand() % 4) + 4;
-    	  numGreenFlashes = 5;
+    	  //numBlueFlashes = (rand() % 4) + 4;
+    	  numBlueFlashes = 5;
  8002970:	2305      	movs	r3, #5
  8002972:	65bb      	str	r3, [r7, #88]	@ 0x58
-    	  for (int i = 0; i < numGreenFlashes; i++) {
+    	  for (int i = 0; i < numBlueFlashes; i++) {
  8002974:	2300      	movs	r3, #0
  8002976:	673b      	str	r3, [r7, #112]	@ 0x70
  8002978:	e058      	b.n	8002a2c <prvStartTask02+0x328>
  800297a:	bf00      	nop
  800297c:	20012da0 	.word	0x20012da0
  8002980:	40020c00 	.word	0x40020c00
-    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
- 8002984:	f44f 5180 	mov.w	r1, #4096	@ 0x1000
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+ 8002984:	f44f 5100 	mov.w	r1, #8192	@ 0x2000
  8002988:	4860      	ldr	r0, [pc, #384]	@ (8002b0c <prvStartTask02+0x408>)
  800298a:	f000 fd94 	bl	80034b6 <HAL_GPIO_TogglePin>
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
@@ -6981,7 +6981,7 @@ static void prvStartTask02(void  * argument)
  8002a1e:	4613      	mov	r3, r2
  8002a20:	4618      	mov	r0, r3
  8002a22:	f7fe fb7d 	bl	8001120 <vTaskDelay>
-    	  for (int i = 0; i < numGreenFlashes; i++) {
+    	  for (int i = 0; i < numBlueFlashes; i++) {
  8002a26:	6f3b      	ldr	r3, [r7, #112]	@ 0x70
  8002a28:	3301      	adds	r3, #1
  8002a2a:	673b      	str	r3, [r7, #112]	@ 0x70
@@ -6990,6 +6990,8 @@ static void prvStartTask02(void  * argument)
  8002a30:	4293      	cmp	r3, r2
  8002a32:	d8a7      	bhi.n	8002984 <prvStartTask02+0x280>
     	  }
+
+
 
     	  GPIO_PinState pinState12 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_12);
  8002a34:	f44f 5180 	mov.w	r1, #4096	@ 0x1000

@@ -307,6 +307,13 @@ static void prvStartTask02(void  * argument)
     	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
     	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 
+    	  //numGreenFlashes = (rand() % 4) + 4;
+    	  numGreenFlashes = 5;
+    	  for (int i = 0; i < numGreenFlashes; i++) {
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+              vTaskDelay(pdMS_TO_TICKS(25-i*2));
+    	  }
+
     	  //numOrangeFlashes = (rand() % 4) + 4;
     	  numOrangeFlashes = 5;
     	  for (int i = 0; i < numOrangeFlashes; i++) {
@@ -328,12 +335,9 @@ static void prvStartTask02(void  * argument)
               vTaskDelay(pdMS_TO_TICKS(25-i*2));
     	  }
 
-    	  //numGreenFlashes = (rand() % 4) + 4;
-    	  numGreenFlashes = 5;
-    	  for (int i = 0; i < numGreenFlashes; i++) {
-    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-              vTaskDelay(pdMS_TO_TICKS(25-i*2));
-    	  }
+    	  vTaskDelay(pdMS_TO_TICKS(20));
+
+
 
     	  GPIO_PinState pinState12 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_12);
     	  GPIO_PinState pinState13 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_13);
