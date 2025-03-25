@@ -71,7 +71,6 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 static void prvStartDefaultTask(void  * argument);
 static void prvStartTask02(void  * argument);
-static void prvStartTask03(void  * argument);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -129,7 +128,6 @@ int main(void)
   							NULL );							/* The task handle is not required, so NULL is passed. */
 
   		xTaskCreate( prvStartTask02, "Other LED", configMINIMAL_STACK_SIZE, NULL, mainOTHER_LED_TASK_PRIORITY, NULL );
-  		xTaskCreate( prvStartTask03, "Other LED2", configMINIMAL_STACK_SIZE, NULL, mainOTHER2_LED_TASK_PRIORITY, NULL );
   //
   		/* Create the software timer, but don't start it yet. */
 //  		xTimer = xTimerCreate( "Timer",				/* The text name assigned to the software timer - for debug only as it is not used by the kernel. */
@@ -371,38 +369,6 @@ static void prvStartTask02(void  * argument)
   }
 }
 
-static void prvStartTask03(void  * argument)
-{
-  /* Infinite loop */
-  uint32_t currentLED = 0;
-
-  for(;;)
-  {
-
-	  /**
-	  switch (currentLED) {
-		  case 0:
-			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-			  break;
-		  case 1:
-			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-			  break;
-		  case 2:
-			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			  break;
-		  case 3:
-			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-			  break;
-	  }
-      currentLED = (currentLED + 1) % 4;
-      vTaskDelay(pdMS_TO_TICKS(15));
-      **/
-  }
-}
 /* USER CODE END 4 */
 
 /**
