@@ -1,0 +1,18 @@
+# STM32CubeIDE generated files
+.settings/
+*.launch
+*.cproject
+*.project
+*.pydevproject
+*.metadata/
+
+# Build directories
+/debug/
+*/Debug/
+*/Release/
+*/build/
+
+# IDE specific files
+/.externalToolBuilders/
+/*.swp
+/.DS_Store
