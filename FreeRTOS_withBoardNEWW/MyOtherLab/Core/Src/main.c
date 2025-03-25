@@ -91,6 +91,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
+	srand(time(NULL));
 //	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
   /* USER CODE END 1 */
 
@@ -276,7 +277,7 @@ static void prvStartDefaultTask(void  * argument)
 		  uint32_t startSignal = 1;
 		  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
 		  xQueueSend(xQueue, &startSignal, portMAX_DELAY);
-		  vTaskDelay(pdMS_TO_TICKS(600));
+		  vTaskDelay(pdMS_TO_TICKS(750));
 	  }
 	  //vTaskDelay(pdMS_TO_TICKS(10));
 
@@ -296,7 +297,7 @@ static void prvStartTask02(void  * argument)
 {
   /* Infinite loop */
   uint32_t receivedSignal;
-  uint32_t numBlueFlashes, numRedFlashes, numOrangeFlashes;
+  uint32_t numGreenFlashes, numBlueFlashes, numRedFlashes, numOrangeFlashes;
 
   for(;;)
   {
@@ -306,37 +307,54 @@ static void prvStartTask02(void  * argument)
     	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
     	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 
-    	  numBlueFlashes = (rand() % 3) + 5;
-    	  for (int i = 0; i < numBlueFlashes; i++) {
-    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-              vTaskDelay(pdMS_TO_TICKS(30-i*2));
-    	  }
-
-    	  numRedFlashes = (rand() % 3) + 5;
-    	  for (int i = 0; i < numRedFlashes; i++) {
-    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-              vTaskDelay(pdMS_TO_TICKS(30-i*2));
-    	  }
-
-    	  numOrangeFlashes = (rand() % 3) + 5;
+    	  //numOrangeFlashes = (rand() % 4) + 4;
+    	  numOrangeFlashes = 5;
     	  for (int i = 0; i < numOrangeFlashes; i++) {
     		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-              vTaskDelay(pdMS_TO_TICKS(30-i*2));
+              vTaskDelay(pdMS_TO_TICKS(25-i*2));
     	  }
 
-    	  GPIO_PinState pinState12 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_13);
+    	  //numRedFlashes = (rand() % 4) + 4;
+    	  numRedFlashes = 5;
+    	  for (int i = 0; i < numRedFlashes; i++) {
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+              vTaskDelay(pdMS_TO_TICKS(25-i*2));
+    	  }
+
+    	  //numBlueFlashes = (rand() % 4) + 4;
+    	  numBlueFlashes = 5;
+    	  for (int i = 0; i < numBlueFlashes; i++) {
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+              vTaskDelay(pdMS_TO_TICKS(25-i*2));
+    	  }
+
+    	  //numGreenFlashes = (rand() % 4) + 4;
+    	  numGreenFlashes = 5;
+    	  for (int i = 0; i < numGreenFlashes; i++) {
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+              vTaskDelay(pdMS_TO_TICKS(25-i*2));
+    	  }
+
+    	  GPIO_PinState pinState12 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_12);
+    	  GPIO_PinState pinState13 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_13);
     	  GPIO_PinState pinState14 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_14);
     	  GPIO_PinState pinState15 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_15);
 
-    	  if (pinState12 == pinState14 == pinState15) {
-    		  for (int i = 0; i < 8; i++) {
+    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+
+    	  if (pinState12 == GPIO_PIN_SET && pinState13 == GPIO_PIN_SET && pinState14 == GPIO_PIN_SET && pinState15 == GPIO_PIN_SET)
+ {
+    		  for (int i = 0; i < 10; i++) {
 				  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 				  vTaskDelay(pdMS_TO_TICKS(15));
     		  }
     	  }
 
     	  else {
-    		  for (int i = 0; i < 8; i++) {
+    		  for (int i = 0; i < 10; i++) {
     			  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
     			  vTaskDelay(pdMS_TO_TICKS(15));
     		  }
