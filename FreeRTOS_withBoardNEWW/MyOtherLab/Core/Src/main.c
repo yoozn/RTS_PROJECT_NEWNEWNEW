@@ -244,19 +244,41 @@ static void prvStartDefaultTask(void  * argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
+	uint32_t currentLED = 0;
   for(;;)
   {
 	  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
 	  //vTaskDelay(pdMS_TO_TICKS(500));
 	  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 
+	  switch (currentLED) {
+		  case 0:
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+			  break;
+		  case 1:
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			  break;
+		  case 2:
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			  break;
+		  case 3:
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+			  break;
+	  }
+      currentLED = (currentLED + 1) % 4;
+      vTaskDelay(pdMS_TO_TICKS(15));
+
 	  if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_SET) {
 		  uint32_t startSignal = 1;
 		  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
 		  xQueueSend(xQueue, &startSignal, portMAX_DELAY);
-		  vTaskDelay(pdMS_TO_TICKS(60));
+		  vTaskDelay(pdMS_TO_TICKS(600));
 	  }
-	  vTaskDelay(pdMS_TO_TICKS(10));
+	  //vTaskDelay(pdMS_TO_TICKS(10));
 
   }
   /* USER CODE END 5 */
@@ -272,45 +294,92 @@ static void prvStartDefaultTask(void  * argument)
 /* USER CODE END Header_StartTask02 */
 static void prvStartTask02(void  * argument)
 {
-  /* USER CODE BEGIN StartTask02 */
   /* Infinite loop */
-	uint32_t receivedSignal;
-	uint32_t spinResult;
+  uint32_t receivedSignal;
+  uint32_t numBlueFlashes, numRedFlashes, numOrangeFlashes;
+
   for(;;)
   {
+      if (xQueueReceive(xQueue, &receivedSignal, portMAX_DELAY)) {
+    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+    	  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 
-	  if (xQueueReceive(xQueue, &receivedSignal, portMAX_DELAY)) {
-		  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-		  spinResult = (rand() % 3) + 1;
-		  xQueueSend(xQueue, &spinResult, portMAX_DELAY);
-		  vTaskDelay(pdMS_TO_TICKS(30));
-	  }
+    	  numBlueFlashes = (rand() % 3) + 5;
+    	  for (int i = 0; i < numBlueFlashes; i++) {
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
+              vTaskDelay(pdMS_TO_TICKS(30-i*2));
+    	  }
+
+    	  numRedFlashes = (rand() % 3) + 5;
+    	  for (int i = 0; i < numRedFlashes; i++) {
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+              vTaskDelay(pdMS_TO_TICKS(30-i*2));
+    	  }
+
+    	  numOrangeFlashes = (rand() % 3) + 5;
+    	  for (int i = 0; i < numOrangeFlashes; i++) {
+    		  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
+              vTaskDelay(pdMS_TO_TICKS(30-i*2));
+    	  }
+
+    	  GPIO_PinState pinState12 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_13);
+    	  GPIO_PinState pinState14 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_14);
+    	  GPIO_PinState pinState15 = HAL_GPIO_ReadPin(GPIOD, GPIO_PIN_15);
+
+    	  if (pinState12 == pinState14 == pinState15) {
+    		  for (int i = 0; i < 8; i++) {
+				  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+				  vTaskDelay(pdMS_TO_TICKS(15));
+    		  }
+    	  }
+
+    	  else {
+    		  for (int i = 0; i < 8; i++) {
+    			  HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
+    			  vTaskDelay(pdMS_TO_TICKS(15));
+    		  }
+    	  }
+
+      }
+
+
+
   }
-  /* USER CODE END StartTask02 */
-  vTaskDelete( NULL );
 }
 
 static void prvStartTask03(void  * argument)
 {
-  /* USER CODE BEGIN StartTask02 */
   /* Infinite loop */
-	uint32_t spinResult2;
+  uint32_t currentLED = 0;
+
   for(;;)
   {
-	  //HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-	  if (xQueueReceive(xQueue, &spinResult2, portMAX_DELAY)) {
-		  //HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-		  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12 | GPIO_PIN_14 | GPIO_PIN_15, GPIO_PIN_RESET);
-		  //HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-		 switch (spinResult2) {
-		 case 1: HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET); break;
-		 case 2: HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET); break;
-		 case 3: HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET); break;
-		  }
+
+	  /**
+	  switch (currentLED) {
+		  case 0:
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+			  break;
+		  case 1:
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			  break;
+		  case 2:
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			  break;
+		  case 3:
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+			  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+			  break;
+	  }
+      currentLED = (currentLED + 1) % 4;
+      vTaskDelay(pdMS_TO_TICKS(15));
+      **/
   }
-  }
-  /* USER CODE END StartTask02 */
-  vTaskDelete( NULL );
 }
 /* USER CODE END 4 */
 
